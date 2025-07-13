@@ -50,7 +50,7 @@ public class BaseUnitController : MonoBehaviour
         return sortedLine;
     }
 
-    protected virtual void PlaceUnits()
+    public virtual void PlaceUnits()
     {
 
     }

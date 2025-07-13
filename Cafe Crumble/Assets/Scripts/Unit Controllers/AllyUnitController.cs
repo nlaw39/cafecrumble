@@ -4,7 +4,7 @@ public class AllyUnitController : BaseUnitController
 {
     private int allyUnitXOffset = -2;
 
-    protected override void PlaceUnits()
+    public override void PlaceUnits()
     {
         foreach (GameObject unit in unitList)
         {

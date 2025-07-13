@@ -36,14 +36,14 @@ public class BaseUnitScript : MonoBehaviour
     }
 
     // Update this unit's HP (taking damage, being increased/healed)
-    void UpdateHealthValue(int change)
+    public void UpdateHealthValue(int change)
     {
         currentHealthPoints += change;
         healthText.text = "" + currentHealthPoints;
     }
 
     // Update this unit's ATK (stat increases/decreases)
-    void UpdateAttackValue(int change)
+    public void UpdateAttackValue(int change)
     {
         currentAttackDamage += change;
         attackText.text = "" + currentAttackDamage;
