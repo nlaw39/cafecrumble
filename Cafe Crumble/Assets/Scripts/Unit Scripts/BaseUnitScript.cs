@@ -10,29 +10,24 @@ public class BaseUnitScript : MonoBehaviour
     public int currentHealthPoints;
     public int currentAttackDamage;
 
-    public TMP_Text healthText;
+    [SerializeField]
+    private TMP_Text healthText;
+    [SerializeField]
+    private TMP_Text attackText;
+
+    public int linePosition;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        UnityEngine.Debug.Log("I'm starting");
         currentHealthPoints = baseHealthPoints;
         currentAttackDamage = baseAttackDamage;
 
-        UnityEngine.Debug.Log("Trying to get Health Text Box");
-        healthText = GetComponent<TMP_Text>();
-        if (healthText != null)
-        {
-            UnityEngine.Debug.Log("Successfully got the text box");
-        }
-        UpdateHealth();
+        UpdateHealthValue(0);
+        UpdateAttackValue(0);
     }
 
-    void Initialize()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()
@@ -40,8 +35,18 @@ public class BaseUnitScript : MonoBehaviour
         
     }
 
-    void UpdateHealth()
+    // Update this unit's HP (taking damage, being increased/healed)
+    void UpdateHealthValue(int change)
     {
+        currentHealthPoints += change;
         healthText.text = "" + currentHealthPoints;
     }
+
+    // Update this unit's ATK (stat increases/decreases)
+    void UpdateAttackValue(int change)
+    {
+        currentAttackDamage += change;
+        attackText.text = "" + currentAttackDamage;
+    }
+
 }
