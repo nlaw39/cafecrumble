@@ -16,8 +16,9 @@ public class BaseUnitController : MonoBehaviour
     // Player clicks on units in order that they want (not happening here)
     // This script reads linePosition and places them into line based on their linePositions
 
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public void Initialize()
     {
 
 
@@ -30,7 +31,7 @@ public class BaseUnitController : MonoBehaviour
             UnityEngine.Debug.Log($"{go.name} -> Position {pos}");
         }
 
-        PlaceUnits();
+        PlaceUnitsStart();
     }
 
     // Update is called once per frame
@@ -50,7 +51,12 @@ public class BaseUnitController : MonoBehaviour
         return sortedLine;
     }
 
-    public virtual void PlaceUnits()
+    public virtual void PlaceUnitsStart()
+    {
+
+    }
+
+    public virtual void PlaceUnitsCombat()
     {
 
     }

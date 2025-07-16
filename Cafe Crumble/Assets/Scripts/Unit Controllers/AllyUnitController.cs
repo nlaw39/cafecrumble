@@ -2,16 +2,29 @@ using UnityEngine;
 
 public class AllyUnitController : BaseUnitController
 {
-    private int allyUnitXOffset = -2;
+    private int allyUnitXOffsetStart = -2;
+    private int allyUnitXOffsetCombat = -2;
 
-    public override void PlaceUnits()
+    public override void PlaceUnitsStart()
     {
         foreach (GameObject unit in unitList)
         {
             UnityEngine.Debug.Log("Placing " + unit.name);
-            unit.transform.position = new Vector3(allyUnitXOffset, transform.position.y,  -1);
-            allyUnitXOffset -= 2;
+            unit.transform.position = new Vector3(allyUnitXOffsetStart, transform.position.y,  -1);
+            allyUnitXOffsetStart -= 2;
         }
         UnityEngine.Debug.Log("Finished placing ally units");
+    }
+
+    public override void PlaceUnitsCombat()
+    {
+        foreach (GameObject unit in unitList)
+        {
+            UnityEngine.Debug.Log("Moving " + unit.name + " in combat.");
+            unit.transform.position = new Vector3(allyUnitXOffsetCombat, transform.position.y, -1);
+            allyUnitXOffsetCombat -= 2;
+        }
+        allyUnitXOffsetCombat = -2;
+        UnityEngine.Debug.Log("Moved ally units during combat");
     }
 }
