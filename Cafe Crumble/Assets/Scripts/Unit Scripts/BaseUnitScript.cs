@@ -5,10 +5,13 @@ using System.Diagnostics;
 public class BaseUnitScript : MonoBehaviour
 {
     public int baseHealthPoints = 5;
-    public int baseAttackDamage = 2;
+    public int baseAttackDamage = 5;
 
     public int currentHealthPoints;
     public int currentAttackDamage;
+
+    private int healthGrowth = 1;
+    private int attackGrowth = 2;
 
     [SerializeField]
     private TMP_Text healthText;
@@ -18,11 +21,22 @@ public class BaseUnitScript : MonoBehaviour
     public int linePosition;
 
 
+    public UnitLevel level;
+
+    public enum UnitLevel
+    { 
+        Level1 = 1,
+        Level2 = 2,
+        Level3 = 3
+    }
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        currentHealthPoints = baseHealthPoints;
-        currentAttackDamage = baseAttackDamage;
+        int currentLevel = (int)level;
+        currentHealthPoints = baseHealthPoints + ((currentLevel - 1) * healthGrowth);
+        currentAttackDamage = baseAttackDamage + ((currentLevel - 1) * attackGrowth);
 
         UpdateHealthValue(0);
         UpdateAttackValue(0);

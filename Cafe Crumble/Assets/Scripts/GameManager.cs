@@ -14,6 +14,17 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private List<GameObject> EnemyUnits;
 
+    private GameState gameState;
+
+    private enum GameState
+    { 
+        Undecided,
+        AllyWin,
+        EnemyWin,
+        Tie
+    }
+
+
     void Start()
     {
         AllyUnitsManager.GetComponent<BaseUnitController>().Initialize();
@@ -37,7 +48,22 @@ public class GameManager : MonoBehaviour
         UnityEngine.Debug.Log("Entered the Combat courotine");
         while (AllyUnits.Any() && EnemyUnits.Any())
         {
+            gameState = GameState.Undecided;
             yield return Attack();
+        }
+
+        if (!AllyUnits.Any() && !EnemyUnits.Any())
+        {
+            gameState = GameState.Tie;
+            UnityEngine.Debug.Log("Combat was a tie.");
+        } else if (!EnemyUnits.Any())
+        {
+            gameState = GameState.AllyWin;
+            UnityEngine.Debug.Log("Combat resulted in Ally Victory.");
+        } else if (!AllyUnits.Any())
+        {
+            gameState = GameState.EnemyWin;
+            UnityEngine.Debug.Log("Combat resulted in Enemy Victory.");
         }
     }
 
@@ -53,19 +79,21 @@ public class GameManager : MonoBehaviour
         allyUnitScript.UpdateHealthValue(-enemyUnitScript.currentAttackDamage);
         enemyUnitScript.UpdateHealthValue(-allyUnitScript.currentAttackDamage);
 
+
+
         if (allyUnitScript.currentHealthPoints <= 0)
         {
             UnityEngine.Debug.Log("Current ally lead has died");
-            yield return MoveUnitsAllies();
+            StartCoroutine(MoveUnitsAllies());
         }
 
         if (enemyUnitScript.currentHealthPoints <= 0)
         {
             UnityEngine.Debug.Log("Current enemy lead has died");
-            yield return MoveUnitsEnemies();
+            StartCoroutine(MoveUnitsEnemies());
         }
 
-        yield return new WaitForSeconds(0.75f);
+        yield return new WaitForSeconds(1.5f);
     }
 
     // Moves the Ally units to their new positions in line
@@ -74,13 +102,16 @@ public class GameManager : MonoBehaviour
         UnityEngine.Debug.Log("Moving ally units");
         AllyUnits[0].SetActive(false);
         AllyUnits.RemoveAt(0);
+
+        yield return new WaitForSeconds(0.5f);
+
         foreach (var GameObject in AllyUnits)
         {
             GameObject.GetComponent<BaseUnitScript>().linePosition--;
         }
 
         AllyUnitsManager.GetComponent<AllyUnitController>().PlaceUnitsCombat();
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.5f);
     }
 
     // Moves the enemy units to their new positions in line
@@ -89,12 +120,15 @@ public class GameManager : MonoBehaviour
         UnityEngine.Debug.Log("Moving enemy units");
         EnemyUnits[0].SetActive(false);
         EnemyUnits.RemoveAt(0);
+
+        yield return new WaitForSeconds(0.5f);
+
         foreach (var GameObject in EnemyUnits)
         {
             GameObject.GetComponent<BaseUnitScript>().linePosition--;
         }
 
         EnemyUnitsManager.GetComponent<EnemyUnitController>().PlaceUnitsCombat();
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.5f);
     }
 }
