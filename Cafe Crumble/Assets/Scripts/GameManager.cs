@@ -46,6 +46,25 @@ public class GameManager : MonoBehaviour
     IEnumerator Combat()
     {
         UnityEngine.Debug.Log("Entered the Combat courotine");
+
+        foreach (var unit in AllyUnits)
+        {
+            BaseUnitScript unitScript = unit.GetComponent<BaseUnitScript>();
+            foreach (PassiveAbility passive in unitScript.GetPassives())
+            {
+                passive.OnCombatStart(AllyUnits);
+            }
+        }
+
+        foreach (var unit in EnemyUnits)
+        {
+            BaseUnitScript unitScript = unit.GetComponent<BaseUnitScript>();
+            foreach (PassiveAbility passive in unitScript.GetPassives())
+            {
+                passive.OnCombatStart(EnemyUnits);
+            }
+        }
+
         while (AllyUnits.Any() && EnemyUnits.Any())
         {
             gameState = GameState.Undecided;
@@ -76,20 +95,27 @@ public class GameManager : MonoBehaviour
         var allyUnitScript = AllyUnits[0].GetComponent<BaseUnitScript>();
         var enemyUnitScript = EnemyUnits[0].GetComponent<BaseUnitScript>();
 
-        allyUnitScript.UpdateHealthValue(-enemyUnitScript.currentAttackDamage);
-        enemyUnitScript.UpdateHealthValue(-allyUnitScript.currentAttackDamage);
+        allyUnitScript.Attack(enemyUnitScript);
+        enemyUnitScript.Attack(allyUnitScript);
 
 
 
         if (allyUnitScript.currentHealthPoints <= 0)
         {
             UnityEngine.Debug.Log("Current ally lead has died");
+            foreach (PassiveAbility passive in allyUnitScript.GetPassives()) {
+                passive.OnDeath();
+            }
             StartCoroutine(MoveUnitsAllies());
         }
 
         if (enemyUnitScript.currentHealthPoints <= 0)
         {
             UnityEngine.Debug.Log("Current enemy lead has died");
+            foreach (PassiveAbility passive in enemyUnitScript.GetPassives())
+            {
+                passive.OnDeath();
+            }
             StartCoroutine(MoveUnitsEnemies());
         }
 

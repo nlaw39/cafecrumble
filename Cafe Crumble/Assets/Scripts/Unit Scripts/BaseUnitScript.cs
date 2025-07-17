@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using System.Diagnostics;
+using System.Collections.Generic;
 
 public class BaseUnitScript : MonoBehaviour
 {
@@ -22,7 +23,7 @@ public class BaseUnitScript : MonoBehaviour
 
     public int linePosition;
 
-
+    public List<PassiveAbility> passives;
 
     public UnitLevel level;
 
@@ -52,6 +53,23 @@ public class BaseUnitScript : MonoBehaviour
         
     }
 
+    // Attack the given target using the current attack value of this unit
+    public void Attack(BaseUnitScript target)
+    {
+        if (target == null)
+        {
+            UnityEngine.Debug.Log("Target for attack not found");
+        } 
+        else
+        {
+            target.UpdateHealthValue(-currentAttackDamage);
+            foreach(PassiveAbility passive in  passives)
+            {
+                passive.OnTakeDamage(this, target);
+            }
+        }
+    }
+
     // Update this unit's HP (taking damage, being increased/healed)
     public void UpdateHealthValue(int change)
     {
@@ -66,4 +84,8 @@ public class BaseUnitScript : MonoBehaviour
         attackText.text = "" + currentAttackDamage;
     }
 
+    public List<PassiveAbility> GetPassives()
+    {
+        return passives;
+    }
 }
