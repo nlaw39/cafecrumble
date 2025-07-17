@@ -10,8 +10,10 @@ public class BaseUnitScript : MonoBehaviour
     public int currentHealthPoints;
     public int currentAttackDamage;
 
-    private int healthGrowth = 1;
-    private int attackGrowth = 2;
+    protected int healthGrowth = 1;
+    protected int attackGrowth = 2;
+
+    public int unitCost;
 
     [SerializeField]
     private TMP_Text healthText;
@@ -19,6 +21,7 @@ public class BaseUnitScript : MonoBehaviour
     private TMP_Text attackText;
 
     public int linePosition;
+
 
 
     public UnitLevel level;
@@ -32,7 +35,7 @@ public class BaseUnitScript : MonoBehaviour
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    protected virtual void Start()
     {
         int currentLevel = (int)level;
         currentHealthPoints = baseHealthPoints + ((currentLevel - 1) * healthGrowth);
