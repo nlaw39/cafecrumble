@@ -47,6 +47,7 @@ public class GameManager : MonoBehaviour
     {
         UnityEngine.Debug.Log("Entered the Combat courotine");
 
+        // Activate all combat start passives for allies
         foreach (var unit in AllyUnits)
         {
             BaseUnitScript unitScript = unit.GetComponent<BaseUnitScript>();
@@ -56,6 +57,8 @@ public class GameManager : MonoBehaviour
             }
         }
 
+
+        // Activate all combat start passives for enemies
         foreach (var unit in EnemyUnits)
         {
             BaseUnitScript unitScript = unit.GetComponent<BaseUnitScript>();
@@ -64,6 +67,8 @@ public class GameManager : MonoBehaviour
                 passive.OnCombatStart(EnemyUnits);
             }
         }
+
+        ActivateOnLeadPassives();
 
         while (AllyUnits.Any() && EnemyUnits.Any())
         {
@@ -131,12 +136,18 @@ public class GameManager : MonoBehaviour
 
         yield return new WaitForSeconds(0.5f);
 
-        foreach (var GameObject in AllyUnits)
+        if (AllyUnits.Any())
         {
-            GameObject.GetComponent<BaseUnitScript>().linePosition--;
+            foreach (var GameObject in AllyUnits)
+            {
+                GameObject.GetComponent<BaseUnitScript>().linePosition--;
+            }
+
+            AllyUnitsManager.GetComponent<AllyUnitController>().PlaceUnitsCombat();
+            ActivateOnLeadAlly();
         }
 
-        AllyUnitsManager.GetComponent<AllyUnitController>().PlaceUnitsCombat();
+        
         yield return new WaitForSeconds(0.5f);
     }
 
@@ -149,12 +160,48 @@ public class GameManager : MonoBehaviour
 
         yield return new WaitForSeconds(0.5f);
 
-        foreach (var GameObject in EnemyUnits)
+        if (EnemyUnits.Any())
         {
-            GameObject.GetComponent<BaseUnitScript>().linePosition--;
+            foreach (var GameObject in EnemyUnits)
+            {
+                GameObject.GetComponent<BaseUnitScript>().linePosition--;
+            }
+
+            EnemyUnitsManager.GetComponent<EnemyUnitController>().PlaceUnitsCombat();
+
+            ActivateOnLeadEnemy();
         }
 
-        EnemyUnitsManager.GetComponent<EnemyUnitController>().PlaceUnitsCombat();
+        
         yield return new WaitForSeconds(0.5f);
+    }
+
+    // Activate all OnTakeLead passives for ally and enemy lead
+    private void ActivateOnLeadPassives()
+    {
+        ActivateOnLeadAlly();
+        ActivateOnLeadEnemy();
+    }
+
+    private void ActivateOnLeadAlly()
+    {
+        UnityEngine.Debug.Log("I made it to ActivateOnLeadAlly");
+        BaseUnitScript allyStartingLead = AllyUnits[0].GetComponent<BaseUnitScript>();
+        BaseUnitScript enemyStartingLead = EnemyUnits[0].GetComponent<BaseUnitScript>();
+        UnityEngine.Debug.Log(allyStartingLead.name + " is the current lead for allies");
+        foreach (PassiveAbility passive in allyStartingLead.GetPassives())
+        {
+            passive.OnTakeLead(allyStartingLead, enemyStartingLead);
+        }
+    }
+
+    private void ActivateOnLeadEnemy()
+    {
+        BaseUnitScript allyStartingLead = AllyUnits[0].GetComponent<BaseUnitScript>();
+        BaseUnitScript enemyStartingLead = EnemyUnits[0].GetComponent<BaseUnitScript>();
+        foreach (PassiveAbility passive in enemyStartingLead.GetPassives())
+        {
+            passive.OnTakeLead(enemyStartingLead, allyStartingLead);
+        }
     }
 }

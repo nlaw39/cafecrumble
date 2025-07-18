@@ -14,6 +14,9 @@ public class BaseUnitScript : MonoBehaviour
     protected int healthGrowth = 1;
     protected int attackGrowth = 2;
 
+    // kind of a band-aid fix for Disguised Cat so that it can block attacks.
+    public bool isShielded = false;
+
     public int unitCost;
 
     [SerializeField]
@@ -62,11 +65,21 @@ public class BaseUnitScript : MonoBehaviour
         } 
         else
         {
-            target.UpdateHealthValue(-currentAttackDamage);
-            foreach(PassiveAbility passive in  passives)
+            if (target.isShielded)
             {
-                passive.OnTakeDamage(this, target);
+                UnityEngine.Debug.Log(target.name + " blocked the incoming attack!");
+                target.isShielded = false;
             }
+            else
+            {
+                target.UpdateHealthValue(-currentAttackDamage);
+                UnityEngine.Debug.Log(target.name + " took " + currentAttackDamage + " damage from " + this.name + "'s attack");
+                foreach (PassiveAbility passive in passives)
+                {
+                    passive.OnTakeDamage(this, target);
+                }
+            }
+            
         }
     }
 

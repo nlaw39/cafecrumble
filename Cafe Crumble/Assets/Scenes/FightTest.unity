@@ -1100,6 +1100,7 @@ MonoBehaviour:
   baseAttackDamage: 1
   currentHealthPoints: 0
   currentAttackDamage: 0
+  isShielded: 0
   unitCost: 0
   healthText: {fileID: 1757602770}
   attackText: {fileID: 304980168}
@@ -1107,6 +1108,7 @@ MonoBehaviour:
   passives:
   - {fileID: 11400000, guid: 9085d24ba8cb09b45a32676a0f01c59c, type: 2}
   - {fileID: 11400000, guid: 5385631e2c075bd4a88254dfb9270c5f, type: 2}
+  - {fileID: 11400000, guid: 28fbddc55ccb8ad469b7411fb98730bb, type: 2}
   level: 1
 --- !u!1 &844644470
 GameObject:
@@ -1190,11 +1192,13 @@ MonoBehaviour:
   baseAttackDamage: 5
   currentHealthPoints: 0
   currentAttackDamage: 0
+  isShielded: 0
   unitCost: 0
   healthText: {fileID: 1339073325}
   attackText: {fileID: 214091438}
   linePosition: 2
-  passives: []
+  passives:
+  - {fileID: 11400000, guid: 28fbddc55ccb8ad469b7411fb98730bb, type: 2}
   level: 1
 --- !u!212 &882427699
 SpriteRenderer:
@@ -2018,6 +2022,7 @@ MonoBehaviour:
   baseAttackDamage: 1
   currentHealthPoints: 0
   currentAttackDamage: 0
+  isShielded: 0
   unitCost: 0
   healthText: {fileID: 1159971337}
   attackText: {fileID: 1107354537}
@@ -2449,6 +2454,7 @@ MonoBehaviour:
   baseAttackDamage: 9
   currentHealthPoints: 0
   currentAttackDamage: 0
+  isShielded: 0
   unitCost: 0
   healthText: {fileID: 594416933}
   attackText: {fileID: 1853332017}
