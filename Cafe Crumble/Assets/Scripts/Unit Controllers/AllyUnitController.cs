@@ -9,22 +9,22 @@ public class AllyUnitController : BaseUnitController
     {
         foreach (GameObject unit in unitList)
         {
-            UnityEngine.Debug.Log("Placing " + unit.name);
+            //UnityEngine.Debug.Log("Placing " + unit.name);
             unit.transform.position = new Vector3(allyUnitXOffsetStart, transform.position.y,  -1);
             allyUnitXOffsetStart -= 2;
         }
-        UnityEngine.Debug.Log("Finished placing ally units");
+       // UnityEngine.Debug.Log("Finished placing ally units");
     }
 
     public override void PlaceUnitsCombat()
     {
         foreach (GameObject unit in unitList)
         {
-            UnityEngine.Debug.Log("Moving " + unit.name + " in combat.");
+            //UnityEngine.Debug.Log("Moving " + unit.name + " in combat.");
             unit.transform.position = new Vector3(allyUnitXOffsetCombat, transform.position.y, -1);
             allyUnitXOffsetCombat -= 2;
         }
         allyUnitXOffsetCombat = -2;
-        UnityEngine.Debug.Log("Moved ally units during combat");
+        //UnityEngine.Debug.Log("Moved ally units during combat");
     }
 }

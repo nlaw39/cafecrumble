@@ -6,6 +6,7 @@ TagManager:
   tags:
   - AllyUnits
   - EnemyUnits
+  - GameManager
   layers:
   - Default
   - TransparentFX

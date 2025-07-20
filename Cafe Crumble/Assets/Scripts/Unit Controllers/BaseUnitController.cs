@@ -60,4 +60,24 @@ public class BaseUnitController : MonoBehaviour
     {
 
     }
+
+    public void TricksterCatSwitch(List<GameObject> enemyTeam)
+    {
+        if (enemyTeam == null || enemyTeam.Count < 2)
+        {
+            UnityEngine.Debug.Log("The enemy team is not big enough to swap");
+            return; // Nothing to swap
+        }
+
+        int firstIndex = 0;
+        int lastIndex = enemyTeam.Count - 1;
+
+        GameObject temp = enemyTeam[firstIndex];
+        enemyTeam[firstIndex] = enemyTeam[lastIndex];
+        enemyTeam[lastIndex] = temp;
+        UnityEngine.Debug.Log("The enemy's lead and rear have been swapped!");
+
+        PlaceUnitsCombat();
+    }
+
 }

@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Diagnostics;
 public class GameManager : MonoBehaviour
 {
     [SerializeField]
@@ -15,6 +16,9 @@ public class GameManager : MonoBehaviour
     private List<GameObject> EnemyUnits;
 
     private GameState gameState;
+
+    [SerializeField]
+    private int currentMoney;
 
     private enum GameState
     { 
@@ -47,28 +51,22 @@ public class GameManager : MonoBehaviour
     {
         UnityEngine.Debug.Log("Entered the Combat courotine");
 
-        // Activate all combat start passives for allies
-        foreach (var unit in AllyUnits)
-        {
-            BaseUnitScript unitScript = unit.GetComponent<BaseUnitScript>();
-            foreach (PassiveAbility passive in unitScript.GetPassives())
-            {
-                passive.OnCombatStart(AllyUnits);
-            }
-        }
+        ActivateImmediatePassives();
 
-
-        // Activate all combat start passives for enemies
-        foreach (var unit in EnemyUnits)
-        {
-            BaseUnitScript unitScript = unit.GetComponent<BaseUnitScript>();
-            foreach (PassiveAbility passive in unitScript.GetPassives())
-            {
-                passive.OnCombatStart(EnemyUnits);
-            }
-        }
+        ActivateOnCombatStartPassives();
 
         ActivateOnLeadPassives();
+
+        yield return new WaitForSeconds(1.0f);
+
+        // Checking in case a passive activated on new lead resulted in killing opposing lead (brainwash hedgehog)
+        var allyUnitScript = AllyUnits[0].GetComponent<BaseUnitScript>();
+        var enemyUnitScript = EnemyUnits[0].GetComponent<BaseUnitScript>();
+
+        CheckDeadAlly(allyUnitScript);
+        CheckDeadEnemy(enemyUnitScript);
+
+        yield return new WaitForSeconds(0.5f);
 
         while (AllyUnits.Any() && EnemyUnits.Any())
         {
@@ -82,6 +80,14 @@ public class GameManager : MonoBehaviour
             UnityEngine.Debug.Log("Combat was a tie.");
         } else if (!EnemyUnits.Any())
         {
+            foreach (var unit in AllyUnits)
+            {
+                BaseUnitScript unitScript = unit.GetComponent<BaseUnitScript>();
+                foreach (PassiveAbility passive in unitScript.GetPassives())
+                { 
+                    passive.OnCombatEnd(unitScript);
+                }
+            }
             gameState = GameState.AllyWin;
             UnityEngine.Debug.Log("Combat resulted in Ally Victory.");
         } else if (!AllyUnits.Any())
@@ -104,26 +110,10 @@ public class GameManager : MonoBehaviour
         enemyUnitScript.Attack(allyUnitScript);
 
 
+        CheckDeadAlly(allyUnitScript);
+        CheckDeadEnemy(enemyUnitScript);
 
-        if (allyUnitScript.currentHealthPoints <= 0)
-        {
-            UnityEngine.Debug.Log("Current ally lead has died");
-            foreach (PassiveAbility passive in allyUnitScript.GetPassives()) {
-                passive.OnDeath();
-            }
-            StartCoroutine(MoveUnitsAllies());
-        }
-
-        if (enemyUnitScript.currentHealthPoints <= 0)
-        {
-            UnityEngine.Debug.Log("Current enemy lead has died");
-            foreach (PassiveAbility passive in enemyUnitScript.GetPassives())
-            {
-                passive.OnDeath();
-            }
-            StartCoroutine(MoveUnitsEnemies());
-        }
-
+        
         yield return new WaitForSeconds(1.5f);
     }
 
@@ -176,6 +166,30 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
     }
 
+    private void ActivateImmediatePassives()
+    {
+        // Activate all activate immediately passives for allies
+        foreach (var unit in AllyUnits)
+        {
+            BaseUnitScript unitScript = unit.GetComponent<BaseUnitScript>();
+            foreach (PassiveAbility passive in unitScript.GetPassives())
+            {
+                passive.ActivateImmediately(unitScript);
+            }
+        }
+
+
+        // Activate all activate immediately passives for enemies
+        foreach (var unit in EnemyUnits)
+        {
+            BaseUnitScript unitScript = unit.GetComponent<BaseUnitScript>();
+            foreach (PassiveAbility passive in unitScript.GetPassives())
+            {
+                passive.ActivateImmediately(unitScript);
+            }
+        }
+    }
+
     // Activate all OnTakeLead passives for ally and enemy lead
     private void ActivateOnLeadPassives()
     {
@@ -203,5 +217,61 @@ public class GameManager : MonoBehaviour
         {
             passive.OnTakeLead(enemyStartingLead, allyStartingLead);
         }
+    }
+
+    private void ActivateOnCombatStartPassives()
+    {
+        // Activate all combat start passives for allies
+        foreach (var unit in AllyUnits)
+        {
+            BaseUnitScript unitScript = unit.GetComponent<BaseUnitScript>();
+            foreach (PassiveAbility passive in unitScript.GetPassives())
+            {
+                passive.OnCombatStart(AllyUnits);
+            }
+        }
+
+
+        // Activate all combat start passives for enemies
+        foreach (var unit in EnemyUnits)
+        {
+            BaseUnitScript unitScript = unit.GetComponent<BaseUnitScript>();
+            foreach (PassiveAbility passive in unitScript.GetPassives())
+            {
+                passive.OnCombatStart(EnemyUnits);
+            }
+        }
+    }
+
+    private void CheckDeadAlly(BaseUnitScript allyUnit)
+    {
+        if (allyUnit.currentHealthPoints <= 0)
+        {
+            UnityEngine.Debug.Log("Current ally lead has died");
+            foreach (PassiveAbility passive in allyUnit.GetPassives())
+            {
+                passive.OnDeath(allyUnit);
+            }
+            StartCoroutine(MoveUnitsAllies());
+        }
+    }
+
+    private void CheckDeadEnemy(BaseUnitScript enemyUnit)
+    {
+        if (enemyUnit.currentHealthPoints <= 0)
+        {
+            UnityEngine.Debug.Log("Current enemy lead has died");
+            foreach (PassiveAbility passive in enemyUnit.GetPassives())
+            {
+                passive.OnDeath(enemyUnit);
+            }
+            StartCoroutine(MoveUnitsEnemies());
+        }
+
+    }
+
+    public void changeMoney(int amount)
+    {
+        currentMoney += amount;
     }
 }

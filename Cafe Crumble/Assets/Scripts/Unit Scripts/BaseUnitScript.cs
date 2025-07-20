@@ -17,6 +17,9 @@ public class BaseUnitScript : MonoBehaviour
     // kind of a band-aid fix for Disguised Cat so that it can block attacks.
     public bool isShielded = false;
 
+    // band-aid for dressed up dog because wtf man i cant implement this rn
+    public bool doubledStatChanges = false;
+
     public int unitCost;
 
     [SerializeField]
@@ -86,19 +89,38 @@ public class BaseUnitScript : MonoBehaviour
     // Update this unit's HP (taking damage, being increased/healed)
     public void UpdateHealthValue(int change)
     {
-        currentHealthPoints += change;
+        if (!doubledStatChanges)
+        {
+            currentHealthPoints += change;
+        } else
+        {
+            currentHealthPoints += 2 * change;
+        }
         healthText.text = "" + currentHealthPoints;
     }
 
     // Update this unit's ATK (stat increases/decreases)
     public void UpdateAttackValue(int change)
     {
-        currentAttackDamage += change;
+        if (!doubledStatChanges)
+        {
+            currentAttackDamage += change;
+        }
+        else
+        {
+            currentAttackDamage += 2 * change;
+        }
         attackText.text = "" + currentAttackDamage;
     }
 
     public List<PassiveAbility> GetPassives()
     {
         return passives;
+    }
+
+    public void AddPassive(PassiveAbility passive)
+    {
+        passives.Add(passive);
+        UnityEngine.Debug.Log(this.name + " gained the passive: " + passive.name);
     }
 }

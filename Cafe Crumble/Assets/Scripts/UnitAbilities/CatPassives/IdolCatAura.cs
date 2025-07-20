@@ -23,7 +23,7 @@ public class IdolCatAura : PassiveAbility
     }
 
 
-    public override void OnDeath()
+    public override void OnDeath(BaseUnitScript self)
     {
         foreach (BaseUnitScript ally in buffedAllies)
         {
