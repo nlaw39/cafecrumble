@@ -1,16 +1,21 @@
 using UnityEngine;
 
-public class DisguisedCatScript : MonoBehaviour
+public class DisguisedCatScript : BaseUnitScript
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    protected override void Start()
     {
-        
-    }
+        baseHealthPoints = 1;
+        baseAttackDamage = 3;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        healthGrowth = 1;
+        attackGrowth = 2;
+
+        unitCost = 2;
+
+        PassiveAbility passive = Resources.Load<PassiveAbility>("UnitAbilities/PassiveAssets/DisguisedCatPassive");
+        AddPassive(Instantiate(passive));
+
+        base.Start();
     }
 }

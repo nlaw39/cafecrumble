@@ -1,16 +1,21 @@
 using UnityEngine;
 
-public class IdolCatScript : MonoBehaviour
+public class IdolCatScript : BaseUnitScript
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    protected override void Start()
     {
-        
-    }
+        baseHealthPoints = 4;
+        baseAttackDamage = 0;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        healthGrowth = 2;
+        attackGrowth = 0;
+
+        unitCost = 3;
+
+        PassiveAbility passive = Resources.Load<PassiveAbility>("UnitAbilities/PassiveAssets/IdolCatAura");
+        AddPassive(Instantiate(passive));
+
+        base.Start();
     }
 }

@@ -96,7 +96,13 @@ public class BaseUnitScript : MonoBehaviour
         {
             currentHealthPoints += 2 * change;
         }
+        UpdateUIText();
+    }
+
+    public void UpdateUIText()
+    {
         healthText.text = "" + currentHealthPoints;
+        attackText.text = "" + currentAttackDamage;
     }
 
     // Update this unit's ATK (stat increases/decreases)
@@ -110,7 +116,7 @@ public class BaseUnitScript : MonoBehaviour
         {
             currentAttackDamage += 2 * change;
         }
-        attackText.text = "" + currentAttackDamage;
+        UpdateUIText();
     }
 
     public List<PassiveAbility> GetPassives()

@@ -1,16 +1,20 @@
 using UnityEngine;
 
-public class UnawareCapybaraScript : MonoBehaviour
+public class UnawareCapybaraScript : BaseUnitScript
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    protected override void Start()
     {
-        
-    }
+        baseHealthPoints = 6;
+        baseAttackDamage = 1;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        healthGrowth = 1;
+        attackGrowth = 1;
+
+        unitCost = 2;
+
+        PassiveAbility passive = Resources.Load<PassiveAbility>("UnitAbilities/PassiveAssets/UnawareCapybaraPassive");
+        AddPassive(Instantiate(passive));
+        base.Start();
     }
 }

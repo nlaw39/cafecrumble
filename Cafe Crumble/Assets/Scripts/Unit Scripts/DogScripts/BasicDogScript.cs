@@ -1,16 +1,18 @@
 using UnityEngine;
 
-public class BasicDogScript : MonoBehaviour
+public class BasicDogScript : BaseUnitScript
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    protected override void Start()
     {
-        
-    }
+        baseHealthPoints = 4;
+        baseAttackDamage = 2;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        healthGrowth = 1;
+        attackGrowth = 0;
+
+        unitCost = 1;
+
+        base.Start();
     }
 }

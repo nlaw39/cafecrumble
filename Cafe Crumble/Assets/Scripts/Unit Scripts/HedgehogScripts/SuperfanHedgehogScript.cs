@@ -1,16 +1,21 @@
 using UnityEngine;
 
-public class SuperfanHedgehogScript : MonoBehaviour
+public class SuperfanHedgehogScript : BaseUnitScript
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    protected override void Start()
     {
-        
-    }
+        baseHealthPoints = 3;
+        baseAttackDamage = 2;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        healthGrowth = 0;
+        attackGrowth = 1;
+
+        unitCost = 2;
+
+        PassiveAbility passive = Resources.Load<PassiveAbility>("UnitAbilities/PassiveAssets/LazyCapybaraPassive");
+        AddPassive(Instantiate(passive));
+
+        base.Start();
     }
 }

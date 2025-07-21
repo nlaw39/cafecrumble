@@ -59,12 +59,7 @@ public class GameManager : MonoBehaviour
 
         yield return new WaitForSeconds(1.0f);
 
-        // Checking in case a passive activated on new lead resulted in killing opposing lead (brainwash hedgehog)
-        var allyUnitScript = AllyUnits[0].GetComponent<BaseUnitScript>();
-        var enemyUnitScript = EnemyUnits[0].GetComponent<BaseUnitScript>();
-
-        CheckDeadAlly(allyUnitScript);
-        CheckDeadEnemy(enemyUnitScript);
+        
 
         yield return new WaitForSeconds(0.5f);
 
@@ -207,6 +202,10 @@ public class GameManager : MonoBehaviour
         {
             passive.OnTakeLead(allyStartingLead, enemyStartingLead);
         }
+
+        // Checking in case a passive activated on new lead resulted in killing opposing lead (brainwash hedgehog)
+        var enemyUnitScript = EnemyUnits[0].GetComponent<BaseUnitScript>();
+        CheckDeadEnemy(enemyUnitScript);
     }
 
     private void ActivateOnLeadEnemy()
@@ -217,6 +216,10 @@ public class GameManager : MonoBehaviour
         {
             passive.OnTakeLead(enemyStartingLead, allyStartingLead);
         }
+
+        // Checking in case a passive activated on new lead resulted in killing opposing lead (brainwash hedgehog)
+        var allyUnitScript = AllyUnits[0].GetComponent<BaseUnitScript>();
+        CheckDeadAlly(allyUnitScript);
     }
 
     private void ActivateOnCombatStartPassives()

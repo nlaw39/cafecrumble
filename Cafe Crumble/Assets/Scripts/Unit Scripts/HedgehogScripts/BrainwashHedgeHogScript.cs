@@ -1,16 +1,21 @@
 using UnityEngine;
 
-public class BrainwashHedgeHogScript : MonoBehaviour
+public class BrainwashHedgehogScript : BaseUnitScript
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    protected override void Start()
     {
-        
-    }
+        baseHealthPoints = 4;
+        baseAttackDamage = 2;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        healthGrowth = 1;
+        attackGrowth = 0;
+
+        unitCost = 2;
+
+        PassiveAbility passive = Resources.Load<PassiveAbility>("UnitAbilities/PassiveAssets/BrainwashHedgehogPassive");
+        AddPassive(Instantiate(passive));
+
+        base.Start();
     }
 }

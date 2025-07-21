@@ -1,16 +1,18 @@
 using UnityEngine;
 
-public class BasicHedgehogScript : MonoBehaviour
+public class BasicHedgehogScript : BaseUnitScript
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    protected override void Start()
     {
-        
-    }
+        baseHealthPoints = 5;
+        baseAttackDamage = 1;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        healthGrowth = 1;
+        attackGrowth = 0;
+
+        unitCost = 1;
+
+        base.Start();
     }
 }

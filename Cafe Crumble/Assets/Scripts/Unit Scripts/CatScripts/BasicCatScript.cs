@@ -1,16 +1,18 @@
 using UnityEngine;
 
-public class BasicCatScript : MonoBehaviour
+public class BasicCatScript : BaseUnitScript
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    protected override void Start()
     {
-        
-    }
+        baseHealthPoints = 3;
+        baseAttackDamage = 2;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        healthGrowth = 1;
+        attackGrowth = 1;
+
+        unitCost = 1;
+
+        base.Start();
     }
 }
