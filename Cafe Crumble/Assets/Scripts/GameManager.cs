@@ -29,13 +29,33 @@ public class GameManager : MonoBehaviour
     }
 
 
+
     void Start()
     {
+        Faction playerFaction = FactionManager.Instance.SelectedFaction;
+
+        switch (playerFaction)
+        {
+            case Faction.Cats:
+                UnityEngine.Debug.Log("Successfully loaded into Cats");
+                break;
+            case Faction.Dogs:
+                UnityEngine.Debug.Log("Successfully loaded into Dogs");
+                break;
+            case Faction.Capybaras:
+                UnityEngine.Debug.Log("Successfully loaded into Capybaras");
+                break;
+            case Faction.Hedgehogs:
+                UnityEngine.Debug.Log("Successfully loaded into Hedgehogs");
+                break;
+        }
+
         AllyUnitsManager.GetComponent<BaseUnitController>().Initialize();
         EnemyUnitsManager.GetComponent<BaseUnitController>().Initialize();
 
         AllyUnits = AllyUnitsManager.GetComponent<BaseUnitController>().unitList;
         EnemyUnits = EnemyUnitsManager.GetComponent<BaseUnitController>().unitList;
+
     }
 
     void Update()

@@ -1492,7 +1492,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 844644470}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2bcce5dfee8266044b4073891a162ee2, type: 3}
+  m_Script: {fileID: 11500000, guid: b3e9f41309886c5498c3addfc67ea696, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   AllyUnitsManager: {fileID: 934212068}
@@ -3058,8 +3058,8 @@ MonoBehaviour:
   isShielded: 0
   doubledStatChanges: 0
   unitCost: 0
-  healthText: {fileID: 2143812460}
-  attackText: {fileID: 198852716}
+  healthText: {fileID: 0}
+  attackText: {fileID: 0}
   linePosition: 3
   passives: []
   level: 1

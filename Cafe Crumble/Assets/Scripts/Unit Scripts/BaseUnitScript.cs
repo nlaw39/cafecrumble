@@ -5,9 +5,11 @@ using System.Collections.Generic;
 
 public class BaseUnitScript : MonoBehaviour
 {
+    protected string unitName;
+
     public int baseHealthPoints = 5;
     public int baseAttackDamage = 5;
-
+    
     public int currentHealthPoints;
     public int currentAttackDamage;
 
@@ -23,9 +25,9 @@ public class BaseUnitScript : MonoBehaviour
     public int unitCost;
 
     [SerializeField]
-    private TMP_Text healthText;
+    protected TMP_Text healthText;
     [SerializeField]
-    private TMP_Text attackText;
+    protected TMP_Text attackText;
 
     public int linePosition;
 
