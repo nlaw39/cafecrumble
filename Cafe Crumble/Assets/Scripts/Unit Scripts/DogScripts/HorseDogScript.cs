@@ -1,21 +1,20 @@
 using UnityEngine;
 using TMPro;
 
-public class DressedDogScript : BaseUnitScript
+public class HorseDogScript : BaseUnitScript
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     protected override void Start()
     {
-        baseHealthPoints = 2;
-        baseAttackDamage = 1;
+        unitName = "Dog?";
 
-        healthGrowth = 2;
+        baseHealthPoints = 7;
+        baseAttackDamage = 2;
+
+        healthGrowth = 1;
         attackGrowth = 0;
 
         unitCost = 2;
-
-        PassiveAbility passive = Resources.Load<PassiveAbility>("UnitAbilities/PassiveAssets/DressedUpDogPassive");
-        AddPassive(Instantiate(passive));
 
         Transform child = transform.Find("Canvas/HealthText");
         if (child != null)
@@ -36,7 +35,6 @@ public class DressedDogScript : BaseUnitScript
                 attackText = tmp2;
             }
         }
-
 
         base.Start();
     }

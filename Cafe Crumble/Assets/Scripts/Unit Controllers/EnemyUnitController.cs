@@ -9,6 +9,14 @@ public class EnemyUnitController : BaseUnitController
     {
         foreach (GameObject unit in unitList)
         {
+            // flipping the sprite horizontally
+            SpriteRenderer sr = unit.GetComponent<SpriteRenderer>();
+            if (sr != null)
+            {
+                sr.flipX = true;
+            }
+
+
             //UnityEngine.Debug.Log("Placing " + unit.name);
             unit.transform.position = new Vector3(enemyUnitXOffsetStart, transform.position.y, -1);
             enemyUnitXOffsetStart += 2;
