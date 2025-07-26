@@ -5,6 +5,22 @@ public class AllyUnitController : BaseUnitController
     private int allyUnitXOffsetStart = -2;
     private int allyUnitXOffsetCombat = -2;
 
+    private static AllyUnitController instance;
+
+    void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            // prevent duplicates
+            Destroy(gameObject); 
+        }
+    }
+
     public override void PlaceUnitsStart()
     {
         foreach (GameObject unit in unitList)

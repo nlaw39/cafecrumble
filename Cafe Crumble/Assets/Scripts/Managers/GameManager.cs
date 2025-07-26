@@ -5,6 +5,8 @@ using System.Linq;
 using System.Diagnostics;
 public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance { get; private set; }
+
     [SerializeField]
     private GameObject AllyUnitsManager;
     [SerializeField]
@@ -20,7 +22,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private int currentMoney;
 
-    private enum GameState
+    public enum GameState
     { 
         Undecided,
         AllyWin,
@@ -67,6 +69,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void StartCombatPhase()
+    {
+        StartCoroutine(Combat());
+    }
+
     IEnumerator Combat()
     {
         UnityEngine.Debug.Log("Entered the Combat courotine");
@@ -110,6 +117,7 @@ public class GameManager : MonoBehaviour
             gameState = GameState.EnemyWin;
             UnityEngine.Debug.Log("Combat resulted in Enemy Victory.");
         }
+
     }
 
     // Coroutine for each team's current lead to exchange blows
