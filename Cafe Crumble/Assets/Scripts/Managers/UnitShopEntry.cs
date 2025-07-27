@@ -48,8 +48,8 @@ public class UnitShopEntry : MonoBehaviour
             GameObject allyHolder = GameObject.FindGameObjectWithTag("AllyUnits");
 
             // Random point in screen space (between 10% and 90% of the screen to avoid edges)
-            float randomX = UnityEngine.Random.Range(0.1f, 0.9f);
-            float randomY = UnityEngine.Random.Range(0.1f, 0.9f);
+            float randomX = UnityEngine.Random.Range(0.3f, 0.7f);
+            float randomY = UnityEngine.Random.Range(0.3f, 0.7f);
             Vector3 viewportPos = new Vector3(randomX, randomY, 10f); // z = 10 to be in front of the camera
 
             // Convert to world position
