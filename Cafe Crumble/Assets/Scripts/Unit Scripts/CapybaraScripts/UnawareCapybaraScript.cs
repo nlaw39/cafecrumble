@@ -3,20 +3,38 @@ using TMPro;
 
 public class UnawareCapybaraScript : BaseUnitScript
 {
+    // This will be assigned in Awake
+    public override UnitData GetUnitData()
+    {
+        UnitData data = ScriptableObject.CreateInstance<UnitData>();
+        data.unitName = "Unaware Capybara";
+        data.unitDesc = "";
+        data.baseHealthPoints = 6;
+        data.baseAttackDamage = 1;
+        data.healthGrowth = 1;
+        data.attackGrowth = 1;
+        data.unitCost = 2;
+        data.unitSprite = sprite;
+        data.unitPrefab = prefab;
+        return data;
+    }
+
+    [SerializeField] private Sprite sprite;
+    [SerializeField] private GameObject prefab;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     protected override void Start()
     {
-        unitName = "Unaware Capybara";
+        UnitData data = GetUnitData();
 
-        baseHealthPoints = 6;
-        baseAttackDamage = 1;
+        unitName = data.unitName;
+        baseHealthPoints = data.baseHealthPoints;
+        baseAttackDamage = data.baseAttackDamage;
+        healthGrowth = data.healthGrowth;
+        attackGrowth = data.attackGrowth;
+        unitCost = data.unitCost;
 
-        healthGrowth = 1;
-        attackGrowth = 1;
-
-        unitCost = 2;
-
-        PassiveAbility passive = Resources.Load<PassiveAbility>("UnitAbilities/PassiveAssets/UnawareCapybaraPassive");
+        PassiveAbility passive = Resources.Load<PassiveAbility>("UnitAbilities/PassiveAssets/UnawareCapybara");
         AddPassive(Instantiate(passive));
 
         Transform child = transform.Find("Canvas/HealthText");

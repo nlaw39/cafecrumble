@@ -3,18 +3,37 @@ using TMPro;
 
 public class HorseDogScript : BaseUnitScript
 {
+    // This will be assigned in Awake
+    public override UnitData GetUnitData()
+    {
+        UnitData data = ScriptableObject.CreateInstance<UnitData>();
+        data.unitName = "Dog?";
+        data.unitDesc = "";
+        data.baseHealthPoints = 7;
+        data.baseAttackDamage = 2;
+        data.healthGrowth = 1;
+        data.attackGrowth = 0;
+        data.unitCost = 2;
+        data.unitSprite = sprite;
+        data.unitPrefab = prefab;
+        return data;
+    }
+
+    [SerializeField] private Sprite sprite;
+    [SerializeField] private GameObject prefab;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     protected override void Start()
     {
-        unitName = "Dog?";
+        UnitData data = GetUnitData();
 
-        baseHealthPoints = 7;
-        baseAttackDamage = 2;
+        unitName = data.unitName;
+        baseHealthPoints = data.baseHealthPoints;
+        baseAttackDamage = data.baseAttackDamage;
+        healthGrowth = data.healthGrowth;
+        attackGrowth = data.attackGrowth;
+        unitCost = data.unitCost;
 
-        healthGrowth = 1;
-        attackGrowth = 0;
-
-        unitCost = 2;
 
         Transform child = transform.Find("Canvas/HealthText");
         if (child != null)

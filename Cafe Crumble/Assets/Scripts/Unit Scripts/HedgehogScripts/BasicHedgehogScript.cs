@@ -3,18 +3,37 @@ using TMPro;
 
 public class BasicHedgehogScript : BaseUnitScript
 {
+    // This will be assigned in Awake
+    public override UnitData GetUnitData()
+    {
+        UnitData data = ScriptableObject.CreateInstance<UnitData>();
+        data.unitName = "Basic Hedgehog";
+        data.unitDesc = "";
+        data.baseHealthPoints = 5;
+        data.baseAttackDamage = 1;
+        data.healthGrowth = 1;
+        data.attackGrowth = 0;
+        data.unitCost = 1;
+        data.unitSprite = sprite;
+        data.unitPrefab = prefab;
+        return data;
+    }
+
+    [SerializeField] private Sprite sprite;
+    [SerializeField] private GameObject prefab;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     protected override void Start()
     {
-        unitName = "Basic Hedgehog";
+        UnitData data = GetUnitData();
 
-        baseHealthPoints = 5;
-        baseAttackDamage = 1;
+        unitName = data.unitName;
+        baseHealthPoints = data.baseHealthPoints;
+        baseAttackDamage = data.baseAttackDamage;
+        healthGrowth = data.healthGrowth;
+        attackGrowth = data.attackGrowth;
+        unitCost = data.unitCost;
 
-        healthGrowth = 1;
-        attackGrowth = 0;
-
-        unitCost = 1;
 
         Transform child = transform.Find("Canvas/HealthText");
         if (child != null)

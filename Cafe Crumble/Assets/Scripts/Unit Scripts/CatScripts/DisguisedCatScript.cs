@@ -3,18 +3,37 @@ using TMPro;
 
 public class DisguisedCatScript : BaseUnitScript
 {
+    // This will be assigned in Awake
+    public override UnitData GetUnitData()
+    {
+        UnitData data = ScriptableObject.CreateInstance<UnitData>();
+        data.unitName = "Disguised Cat";
+        data.unitDesc = "";
+        data.baseHealthPoints = 1;
+        data.baseAttackDamage = 3;
+        data.healthGrowth = 1;
+        data.attackGrowth = 2;
+        data.unitCost = 2;
+        data.unitSprite = sprite;
+        data.unitPrefab = prefab;
+        return data;
+    }
+
+    [SerializeField] private Sprite sprite;
+    [SerializeField] private GameObject prefab;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     protected override void Start()
     {
-        unitName = "Disguised Cat";
+        UnitData data = GetUnitData();
 
-        baseHealthPoints = 1;
-        baseAttackDamage = 3;
+        unitName = data.unitName;
+        baseHealthPoints = data.baseHealthPoints;
+        baseAttackDamage = data.baseAttackDamage;
+        healthGrowth = data.healthGrowth;
+        attackGrowth = data.attackGrowth;
+        unitCost = data.unitCost;
 
-        healthGrowth = 1;
-        attackGrowth = 2;
-
-        unitCost = 2;
 
         PassiveAbility passive = Resources.Load<PassiveAbility>("UnitAbilities/PassiveAssets/DisguisedCatPassive");
         AddPassive(Instantiate(passive));

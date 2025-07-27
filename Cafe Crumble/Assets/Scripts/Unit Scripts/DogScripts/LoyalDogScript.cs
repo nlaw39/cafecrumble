@@ -3,16 +3,37 @@ using TMPro;
 
 public class LoyalDogScript : BaseUnitScript
 {
+    // This will be assigned in Awake
+    public override UnitData GetUnitData()
+    {
+        UnitData data = ScriptableObject.CreateInstance<UnitData>();
+        data.unitName = "Loyal Dog";
+        data.unitDesc = "";
+        data.baseHealthPoints = 3;
+        data.baseAttackDamage = 2;
+        data.healthGrowth = 0;
+        data.attackGrowth = 1;
+        data.unitCost = 2;
+        data.unitSprite = sprite;
+        data.unitPrefab = prefab;
+        return data;
+    }
+
+    [SerializeField] private Sprite sprite;
+    [SerializeField] private GameObject prefab;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     protected override void Start()
     {
-        baseHealthPoints = 3;
-        baseAttackDamage = 2;
+        UnitData data = GetUnitData();
 
-        healthGrowth = 0;
-        attackGrowth = 1;
+        unitName = data.unitName;
+        baseHealthPoints = data.baseHealthPoints;
+        baseAttackDamage = data.baseAttackDamage;
+        healthGrowth = data.healthGrowth;
+        attackGrowth = data.attackGrowth;
+        unitCost = data.unitCost;
 
-        unitCost = 2;
 
         PassiveAbility passive = Resources.Load<PassiveAbility>("UnitAbilities/PassiveAssets/LoyalDogPassive");
         AddPassive(Instantiate(passive));

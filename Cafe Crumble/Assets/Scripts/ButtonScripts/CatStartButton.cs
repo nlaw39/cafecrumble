@@ -11,7 +11,7 @@ public class CatStartButton : MonoBehaviour
     void Awake()
     {
         UnityEngine.UI.Image image = GetComponent<UnityEngine.UI.Image>();
-        image.alphaHitTestMinimumThreshold = 0.1f;
+        //image.alphaHitTestMinimumThreshold = 0.1f;
     }
 
     public void OnClickFaction()

@@ -3,26 +3,27 @@ using TMPro;
 using System.Diagnostics;
 using System.Collections.Generic;
 
-public class BaseUnitScript : MonoBehaviour
+public abstract class BaseUnitScript : MonoBehaviour
 {
-    protected string unitName;
+    public UnitData unitData;
 
-    public int baseHealthPoints = 5;
-    public int baseAttackDamage = 5;
-    
+    public string unitName { get; protected set; }
+    public int baseHealthPoints { get; protected set; }
+    public int baseAttackDamage { get; protected set; }
+    public int healthGrowth { get; protected set; }
+    public int attackGrowth { get; protected set; }
+    public int unitCost { get; protected set; }
+    public Sprite unitSprite { get; protected set; }
+
+
     public int currentHealthPoints;
     public int currentAttackDamage;
-
-    protected int healthGrowth = 1;
-    protected int attackGrowth = 2;
 
     // kind of a band-aid fix for Disguised Cat so that it can block attacks.
     public bool isShielded = false;
 
     // band-aid for dressed up dog because wtf man i cant implement this rn
     public bool doubledStatChanges = false;
-
-    public int unitCost;
 
     [SerializeField]
     protected TMP_Text healthText;
@@ -42,6 +43,7 @@ public class BaseUnitScript : MonoBehaviour
         Level3 = 3
     }
 
+    public abstract UnitData GetUnitData();
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     protected virtual void Start()

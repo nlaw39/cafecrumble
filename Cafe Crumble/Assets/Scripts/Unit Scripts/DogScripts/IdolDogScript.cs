@@ -3,16 +3,37 @@ using TMPro;
 
 public class IdolDogScript : BaseUnitScript
 {
+    // This will be assigned in Awake
+    public override UnitData GetUnitData()
+    {
+        UnitData data = ScriptableObject.CreateInstance<UnitData>();
+        data.unitName = "Hats-inu Miku";
+        data.unitDesc = "";
+        data.baseHealthPoints = 4;
+        data.baseAttackDamage = 0;
+        data.healthGrowth = 2;
+        data.attackGrowth = 0;
+        data.unitCost = 3;
+        data.unitSprite = sprite;
+        data.unitPrefab = prefab;
+        return data;
+    }
+
+    [SerializeField] private Sprite sprite;
+    [SerializeField] private GameObject prefab;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     protected override void Start()
     {
-        baseHealthPoints = 4;
-        baseAttackDamage = 0;
+        UnitData data = GetUnitData();
 
-        healthGrowth = 2;
-        attackGrowth = 0;
+        unitName = data.unitName;
+        baseHealthPoints = data.baseHealthPoints;
+        baseAttackDamage = data.baseAttackDamage;
+        healthGrowth = data.healthGrowth;
+        attackGrowth = data.attackGrowth;
+        unitCost = data.unitCost;
 
-        unitCost = 3;
 
         PassiveAbility passive = Resources.Load<PassiveAbility>("UnitAbilities/PassiveAssets/IdolCatAura");
         AddPassive(Instantiate(passive));

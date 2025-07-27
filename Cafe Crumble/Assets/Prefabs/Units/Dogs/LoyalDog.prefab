@@ -154,7 +154,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8872137247070182208
 RectTransform:
   m_ObjectHideFlags: 0
@@ -476,15 +476,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f55ea2c12e6ff98408260701167bde93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseHealthPoints: 5
-  baseAttackDamage: 5
+  unitData: {fileID: 0}
   currentHealthPoints: 0
   currentAttackDamage: 0
   isShielded: 0
   doubledStatChanges: 0
-  unitCost: 0
   healthText: {fileID: 0}
   attackText: {fileID: 0}
   linePosition: 0
   passives: []
   level: 1
+  sprite: {fileID: -8904278155828419261, guid: aad3345179f99b94899796ba22cc01ab, type: 3}
+  prefab: {fileID: 8270117404538065337}

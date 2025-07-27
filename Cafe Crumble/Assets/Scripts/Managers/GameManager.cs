@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private List<GameObject> EnemyUnits;
 
+    private HashSet<string> purchasedUnits = new HashSet<string>();
+
     private GameState gameState;
 
     [SerializeField]
@@ -30,7 +32,16 @@ public class GameManager : MonoBehaviour
         Tie
     }
 
-
+    void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
 
     void Start()
     {
@@ -304,5 +315,15 @@ public class GameManager : MonoBehaviour
     public void changeMoney(int amount)
     {
         currentMoney += amount;
+    }
+
+    public void MarkUnitAsPurchased(string unitName)
+    {
+        purchasedUnits.Add(unitName);
+    }
+
+    public bool HasPurchasedUnit(string unitName)
+    {
+        return purchasedUnits.Contains(unitName);
     }
 }

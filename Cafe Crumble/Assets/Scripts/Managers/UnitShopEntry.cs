@@ -2,33 +2,67 @@
 using TMPro;
 using UnityEngine.UI;
 using System.Diagnostics;
+using System;
 
 public class UnitShopEntry : MonoBehaviour
 {
+    [SerializeField] private Image iconImage;
     [SerializeField] private TMP_Text nameText;
     [SerializeField] private TMP_Text healthText;
     [SerializeField] private TMP_Text attackText;
     [SerializeField] private TMP_Text costText;
     [SerializeField] private Button buyButton;
 
-    private BaseUnitScript unitData;
 
-    public void Initialize(BaseUnitScript unit)
+    public void Initialize(UnitData unit)
     {
-        unitData = unit;
-
-        nameText.text = unit.name;
-        healthText.text = "HP: " + unit.currentHealthPoints;
-        attackText.text = "ATK: " + unit.currentAttackDamage;
-        costText.text = unit.unitCost + " ";
-
-        // If you want a click handler:
+        iconImage.sprite = unit.unitSprite;
+        nameText.text = unit.unitName;
+        healthText.text = "" + unit.baseHealthPoints;
+        attackText.text = "" + unit.baseAttackDamage;
+        costText.text = " " + unit.unitCost;
+        
         buyButton.onClick.AddListener(() => PurchaseUnit(unit));
+
+        if (GameManager.Instance.HasPurchasedUnit(unit.unitName))
+        {
+            buyButton.interactable = false;
+        }
+        else
+        {
+            buyButton.interactable = true;
+        }
     }
 
-    private void PurchaseUnit(BaseUnitScript unit)
+    private void PurchaseUnit(UnitData unit)
     {
-        UnityEngine.Debug.Log("Purchased " + unit.name + " for " + unit.unitCost + " ");
-        // Add unit to player's bench here
+        if (GameManager.Instance.HasPurchasedUnit(unit.unitName))
+        {
+            return;
+        }
+            
+        UnityEngine.Debug.Log("Purchased " + unit.unitName + " for " + unit.unitCost + " ");
+
+        if (unit.unitPrefab != null)
+        {
+            GameObject allyHolder = GameObject.FindGameObjectWithTag("AllyUnits");
+
+            // Random point in screen space (between 10% and 90% of the screen to avoid edges)
+            float randomX = UnityEngine.Random.Range(0.1f, 0.9f);
+            float randomY = UnityEngine.Random.Range(0.1f, 0.9f);
+            Vector3 viewportPos = new Vector3(randomX, randomY, 10f); // z = 10 to be in front of the camera
+
+            // Convert to world position
+            Vector3 spawnPosition = Camera.main.ViewportToWorldPoint(viewportPos);
+
+            // Instantiate the unit at that world position
+            GameObject newUnit = Instantiate(unit.unitPrefab, spawnPosition, Quaternion.identity, allyHolder.transform);
+
+            GameManager.Instance.MarkUnitAsPurchased(unit.unitName);
+        }
+        else
+        {
+            UnityEngine.Debug.LogError("Prefab missing for unit: " + unit.unitName);
+        }
     }
 }

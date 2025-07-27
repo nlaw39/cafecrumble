@@ -3,18 +3,37 @@ using TMPro;
 
 public class BrainwashHedgehogScript : BaseUnitScript
 {
+    // This will be assigned in Awake
+    public override UnitData GetUnitData()
+    {
+        UnitData data = ScriptableObject.CreateInstance<UnitData>();
+        data.unitName = "Brainwashing Hedgehog";
+        data.unitDesc = "";
+        data.baseHealthPoints = 4;
+        data.baseAttackDamage = 2;
+        data.healthGrowth = 1;
+        data.attackGrowth = 0;
+        data.unitCost = 2;
+        data.unitSprite = sprite;
+        data.unitPrefab = prefab;
+        return data;
+    }
+
+    [SerializeField] private Sprite sprite;
+    [SerializeField] private GameObject prefab;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     protected override void Start()
     {
-        unitName = "Brainwashing Hedgehog";
+        UnitData data = GetUnitData();
 
-        baseHealthPoints = 4;
-        baseAttackDamage = 2;
+        unitName = data.unitName;
+        baseHealthPoints = data.baseHealthPoints;
+        baseAttackDamage = data.baseAttackDamage;
+        healthGrowth = data.healthGrowth;
+        attackGrowth = data.attackGrowth;
+        unitCost = data.unitCost;
 
-        healthGrowth = 1;
-        attackGrowth = 0;
-
-        unitCost = 2;
 
         PassiveAbility passive = Resources.Load<PassiveAbility>("UnitAbilities/PassiveAssets/BrainwashHedgehogPassive");
         AddPassive(Instantiate(passive));
