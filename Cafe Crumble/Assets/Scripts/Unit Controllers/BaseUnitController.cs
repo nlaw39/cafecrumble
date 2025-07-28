@@ -80,4 +80,8 @@ public class BaseUnitController : MonoBehaviour
         PlaceUnitsCombat();
     }
 
+    public void AddUnitToList(GameObject unit)
+    {
+        unitList.Add(unit);
+    }
 }

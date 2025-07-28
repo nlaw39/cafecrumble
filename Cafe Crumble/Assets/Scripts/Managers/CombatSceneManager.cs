@@ -13,6 +13,17 @@ public class CombatSceneManager : MonoBehaviour
     {
         allyUnitsHolder = GameObject.FindGameObjectWithTag("AllyUnits");
 
+        // To enable selection scripts on all units
+        foreach (Transform unit in allyUnitsHolder.transform)
+        {
+            UnitSelection unitSelectionScript = unit.GetComponent<UnitSelection>();
+            if (unitSelectionScript != null)
+            {
+                unitSelectionScript.enabled = true; // Enable when entering combat scene
+            }
+        }
+
+
         if (allyUnitsHolder == null || allyFormationTransform == null)
         {
             UnityEngine.Debug.LogError("CombatSceneManager is missing references.");
@@ -38,7 +49,7 @@ public class CombatSceneManager : MonoBehaviour
     private void ArrangeUnitsInRow(List<Transform> units, Transform parent)
     {
         // adjust based on unit width
-        float spacing = 2.0f; 
+        float spacing = 3.0f; 
         float startX = -((units.Count - 1) * spacing) / 2f;
 
         for (int i = 0; i < units.Count; i++)
@@ -48,7 +59,7 @@ public class CombatSceneManager : MonoBehaviour
             // set new parent
             unit.SetParent(parent);
             unit.localRotation = Quaternion.identity;
-            unit.localScale = Vector3.one;
+            unit.localScale = new Vector3(1.5f, 1.5f, 1.5f);
 
             // position in a line
             unit.localPosition = new Vector3(startX + i * spacing, -3.0f, 0f);

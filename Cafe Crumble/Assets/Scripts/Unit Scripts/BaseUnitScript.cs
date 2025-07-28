@@ -81,9 +81,9 @@ public abstract class BaseUnitScript : MonoBehaviour
             {
                 target.UpdateHealthValue(-currentAttackDamage);
                 UnityEngine.Debug.Log(target.name + " took " + currentAttackDamage + " damage from " + this.name + "'s attack");
-                foreach (PassiveAbility passive in passives)
+                foreach (PassiveAbility passive in target.passives)
                 {
-                    passive.OnTakeDamage(this, target);
+                    passive.OnTakeDamage(target, this);
                 }
             }
             

@@ -67,7 +67,7 @@ public class GameManager : MonoBehaviour
         EnemyUnitsManager.GetComponent<BaseUnitController>().Initialize();
 
         AllyUnits = AllyUnitsManager.GetComponent<BaseUnitController>().unitList;
-        EnemyUnits = EnemyUnitsManager.GetComponent<BaseUnitController>().unitList;
+        
 
     }
 
@@ -82,6 +82,31 @@ public class GameManager : MonoBehaviour
 
     public void StartCombatPhase()
     {
+        EnemyUnitsManager = GameObject.FindGameObjectWithTag("EnemyUnits");
+        EnemyUnits = EnemyUnitsManager.GetComponent<BaseUnitController>().unitList;
+        foreach (var unit in AllyUnits)
+        {
+            foreach (Transform child in unit.transform)
+            {
+                GameObject canvasObj = child.gameObject;
+                bool isActive = canvasObj.activeSelf;
+                canvasObj.SetActive(!isActive);
+            }
+        }
+
+        foreach (var unit in EnemyUnits)
+        {
+            foreach (Transform child in unit.transform)
+            {
+                GameObject canvasObj = child.gameObject;
+                bool isActive = canvasObj.activeSelf;
+                canvasObj.SetActive(!isActive);
+            }
+            unit.GetComponent<UnitSelection>().DeactivateOrderCanvas();
+        }
+
+        AllyUnitsManager.GetComponent<AllyUnitController>().PlaceUnitsStart();
+        EnemyUnitsManager.GetComponent<EnemyUnitController>().PlaceUnitsStart();
         StartCoroutine(Combat());
     }
 
@@ -325,5 +350,10 @@ public class GameManager : MonoBehaviour
     public bool HasPurchasedUnit(string unitName)
     {
         return purchasedUnits.Contains(unitName);
+    }
+
+    public int NumPurchasedUnits() 
+    { 
+        return purchasedUnits.Count; 
     }
 }
