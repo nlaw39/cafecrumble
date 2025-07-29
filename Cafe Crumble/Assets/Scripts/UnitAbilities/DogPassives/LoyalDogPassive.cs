@@ -14,7 +14,7 @@ public class LoyalDogPassive : PassiveAbility
             {
                 GameObject gameManagerObject = GameObject.FindGameObjectWithTag("GameManager");
                 GameManager gameManagerScript = gameManagerObject.GetComponent<GameManager>();
-                gameManagerScript.changeMoney(1);
+                gameManagerScript.ChangeMoney(1);
                 UnityEngine.Debug.Log("Loyal Dog found $1 in the cafe!");
             }
         }

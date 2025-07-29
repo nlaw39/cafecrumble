@@ -133,4 +133,11 @@ public abstract class BaseUnitScript : MonoBehaviour
         passives.Add(passive);
         UnityEngine.Debug.Log(this.name + " gained the passive: " + passive.name);
     }
+
+    public void ResetStats()
+    {
+        currentHealthPoints = baseHealthPoints;
+        currentAttackDamage = baseAttackDamage;
+        UpdateUIText();
+    }
 }

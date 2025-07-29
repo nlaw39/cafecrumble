@@ -71,15 +71,6 @@ public class GameManager : MonoBehaviour
 
     }
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            UnityEngine.Debug.Log("Combat initiated via space bar");
-            StartCoroutine(Combat());
-        }
-    }
-
     public void StartCombatPhase()
     {
         EnemyUnitsManager = GameObject.FindGameObjectWithTag("EnemyUnits");
@@ -114,6 +105,9 @@ public class GameManager : MonoBehaviour
     {
         UnityEngine.Debug.Log("Entered the Combat courotine");
 
+        GameObject combatManager = GameObject.FindGameObjectWithTag("CombatManager");
+        CombatUIController combatUI = combatManager.GetComponent<CombatUIController>();
+
         ActivateImmediatePassives();
 
         ActivateOnCombatStartPassives();
@@ -136,6 +130,7 @@ public class GameManager : MonoBehaviour
         {
             gameState = GameState.Tie;
             UnityEngine.Debug.Log("Combat was a tie.");
+            combatUI.SetCafeButtonActive();
         } else if (!EnemyUnits.Any())
         {
             foreach (var unit in AllyUnits)
@@ -148,10 +143,12 @@ public class GameManager : MonoBehaviour
             }
             gameState = GameState.AllyWin;
             UnityEngine.Debug.Log("Combat resulted in Ally Victory.");
+            combatUI.SetCafeButtonActive();
         } else if (!AllyUnits.Any())
         {
             gameState = GameState.EnemyWin;
             UnityEngine.Debug.Log("Combat resulted in Enemy Victory.");
+            combatUI.SetCafeButtonActive();
         }
 
     }
@@ -231,6 +228,7 @@ public class GameManager : MonoBehaviour
         foreach (var unit in AllyUnits)
         {
             BaseUnitScript unitScript = unit.GetComponent<BaseUnitScript>();
+            unitScript.UpdateUIText();
             foreach (PassiveAbility passive in unitScript.GetPassives())
             {
                 passive.ActivateImmediately(unitScript);
@@ -242,6 +240,7 @@ public class GameManager : MonoBehaviour
         foreach (var unit in EnemyUnits)
         {
             BaseUnitScript unitScript = unit.GetComponent<BaseUnitScript>();
+            unitScript.UpdateUIText();
             foreach (PassiveAbility passive in unitScript.GetPassives())
             {
                 passive.ActivateImmediately(unitScript);
@@ -266,6 +265,8 @@ public class GameManager : MonoBehaviour
         {
             passive.OnTakeLead(allyStartingLead, enemyStartingLead);
         }
+        allyStartingLead.UpdateUIText();
+        enemyStartingLead.UpdateUIText();
 
         // Checking in case a passive activated on new lead resulted in killing opposing lead (brainwash hedgehog)
         var enemyUnitScript = EnemyUnits[0].GetComponent<BaseUnitScript>();
@@ -280,6 +281,8 @@ public class GameManager : MonoBehaviour
         {
             passive.OnTakeLead(enemyStartingLead, allyStartingLead);
         }
+        allyStartingLead.UpdateUIText();
+        enemyStartingLead.UpdateUIText();
 
         // Checking in case a passive activated on new lead resulted in killing opposing lead (brainwash hedgehog)
         var allyUnitScript = AllyUnits[0].GetComponent<BaseUnitScript>();
@@ -292,6 +295,7 @@ public class GameManager : MonoBehaviour
         foreach (var unit in AllyUnits)
         {
             BaseUnitScript unitScript = unit.GetComponent<BaseUnitScript>();
+            unitScript.UpdateUIText();
             foreach (PassiveAbility passive in unitScript.GetPassives())
             {
                 passive.OnCombatStart(AllyUnits);
@@ -303,6 +307,7 @@ public class GameManager : MonoBehaviour
         foreach (var unit in EnemyUnits)
         {
             BaseUnitScript unitScript = unit.GetComponent<BaseUnitScript>();
+            unitScript.UpdateUIText();
             foreach (PassiveAbility passive in unitScript.GetPassives())
             {
                 passive.OnCombatStart(EnemyUnits);
@@ -337,9 +342,14 @@ public class GameManager : MonoBehaviour
 
     }
 
-    public void changeMoney(int amount)
+    public void ChangeMoney(int amount)
     {
         currentMoney += amount;
+    }
+
+    public int ReturnMoney()
+    {
+        return currentMoney;
     }
 
     public void MarkUnitAsPurchased(string unitName)
@@ -355,5 +365,33 @@ public class GameManager : MonoBehaviour
     public int NumPurchasedUnits() 
     { 
         return purchasedUnits.Count; 
+    }
+
+    public void ResetAlliedUnits()
+    {
+        //AllyUnitsManager = GameObject.FindGameObjectWithTag("AllyUnits");
+        AllyUnitsManager.GetComponent<BaseUnitController>().ClearList();
+
+        foreach (Transform child in AllyUnitsManager.transform)
+        {
+            GameObject unit = child.gameObject;
+            unit.SetActive(true);
+
+            var unitScript = unit.GetComponent<BaseUnitScript>();
+            unitScript.ResetStats();
+
+            // Move unit to random screen position so they aren't stacked on arrival
+            float randomX = UnityEngine.Random.Range(0.3f, 0.7f);
+            float randomY = UnityEngine.Random.Range(0.3f, 0.7f);
+            Vector3 viewportPos = new Vector3(randomX, randomY, 10f); // z = 10 to be in front of camera
+            Vector3 spawnPosition = Camera.main.ViewportToWorldPoint(viewportPos);
+            unit.transform.position = spawnPosition;
+
+            foreach (Transform canvas in unit.transform)
+            {
+                GameObject canvasObj = canvas.gameObject;
+                canvasObj.SetActive(false);
+            }
+        }
     }
 }

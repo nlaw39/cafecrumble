@@ -371,7 +371,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Go!
+  m_Text: Return to Cafe
 --- !u!222 &247683043
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -837,7 +837,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 40, y: 340}
+  m_AnchoredPosition: {x: 0, y: 340}
   m_SizeDelta: {x: -1680, y: -950}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1503085583
@@ -996,7 +996,7 @@ GameObject:
   - component: {fileID: 1998232401}
   m_Layer: 0
   m_Name: CombatSceneManager
-  m_TagString: Untagged
+  m_TagString: CombatManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1061,7 +1061,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2029013350
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1079,8 +1079,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 890, y: 60}
-  m_SizeDelta: {x: -1820, y: -280}
+  m_AnchoredPosition: {x: 0, y: -250}
+  m_SizeDelta: {x: -1560, y: -800}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2029013351
 MonoBehaviour:

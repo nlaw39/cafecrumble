@@ -2,12 +2,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class ShopUIController : MonoBehaviour
 {
     [SerializeField] private GameObject shopPanel;
     [SerializeField] private Button openShopButton;
     [SerializeField] private Button closeShopButton;
+    [SerializeField] private TMP_Text moneyText;
 
     [SerializeField] private Button goToCombatButton;
 
@@ -19,6 +21,7 @@ public class ShopUIController : MonoBehaviour
     private Faction currentFaction;
     private List<GameObject> factionUnits;
 
+
     void Start()
     {
         SetFaction(FactionManager.Instance.SelectedFaction);
@@ -28,6 +31,8 @@ public class ShopUIController : MonoBehaviour
         openShopButton.onClick.AddListener(OpenShop);
         closeShopButton.onClick.AddListener(CloseShop);
         goToCombatButton.onClick.AddListener(GoToCombatScene);
+
+        UpdateMoneyDisplay();
 
         factionUnits = unitDatabase.GetUnitsForFaction(currentFaction);
     }
@@ -45,8 +50,16 @@ public class ShopUIController : MonoBehaviour
 
     void GoToCombatScene()
     {
-        UnityEngine.Debug.Log("Going to combat scene");
-        SceneManager.LoadScene("CombatScene");
+        GameObject AllyUnitsManager = GameObject.FindGameObjectWithTag("AllyUnits");
+        if (AllyUnitsManager.transform.childCount < 1)
+        {
+            UnityEngine.Debug.Log("No units owned, cannot go to combat!");
+            return;
+        } else
+        {
+            UnityEngine.Debug.Log("Going to combat scene");
+            SceneManager.LoadScene("CombatScene");
+        }
     }
 
     private void PopulateShop()
@@ -70,5 +83,10 @@ public class ShopUIController : MonoBehaviour
     public void SetFaction(Faction faction)
     {
         currentFaction = faction;
+    }
+
+    public void UpdateMoneyDisplay()
+    {
+        moneyText.text = "" + GameManager.Instance.ReturnMoney();
     }
 }

@@ -18,9 +18,15 @@ public class CombatUIController : MonoBehaviour
 
     }
 
+    public void SetCafeButtonActive()
+    {
+        returnToCafeButton.gameObject.SetActive(true);
+    }
+
     void ReturnToCafe()
     {
         UnityEngine.Debug.Log("Return to cafe button pressed");
+        GameManager.Instance.ResetAlliedUnits();
         SceneManager.LoadScene("CafeScene");
     }
 }

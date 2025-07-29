@@ -84,4 +84,9 @@ public class BaseUnitController : MonoBehaviour
     {
         unitList.Add(unit);
     }
+
+    public void ClearList()
+    {
+        unitList.Clear();
+    }
 }

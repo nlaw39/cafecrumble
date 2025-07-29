@@ -29,6 +29,7 @@ public class AllyUnitController : BaseUnitController
             unit.transform.position = new Vector3(allyUnitXOffsetStart, transform.position.y,  -1);
             allyUnitXOffsetStart -= 2;
         }
+        allyUnitXOffsetStart = -2;
        // UnityEngine.Debug.Log("Finished placing ally units");
     }
 

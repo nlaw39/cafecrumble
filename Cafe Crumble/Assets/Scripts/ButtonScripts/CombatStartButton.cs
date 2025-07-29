@@ -31,5 +31,7 @@ public class CombatStartButton : MonoBehaviour
 
         // Proceed to combat phase...
         GameManager.Instance.StartCombatPhase();
+
+        gameObject.SetActive(false);
     }
 }
