@@ -25,12 +25,10 @@ public class AllyUnitController : BaseUnitController
     {
         foreach (GameObject unit in unitList)
         {
-            //UnityEngine.Debug.Log("Placing " + unit.name);
             unit.transform.position = new Vector3(allyUnitXOffsetStart, transform.position.y,  -1);
             allyUnitXOffsetStart -= 2;
         }
         allyUnitXOffsetStart = -2;
-       // UnityEngine.Debug.Log("Finished placing ally units");
     }
 
     public override void PlaceUnitsCombat()
@@ -42,6 +40,5 @@ public class AllyUnitController : BaseUnitController
             allyUnitXOffsetCombat -= 2;
         }
         allyUnitXOffsetCombat = -2;
-        //UnityEngine.Debug.Log("Moved ally units during combat");
     }
 }

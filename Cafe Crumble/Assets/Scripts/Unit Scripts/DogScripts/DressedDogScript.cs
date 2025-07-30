@@ -9,7 +9,7 @@ public class DressedDogScript : BaseUnitScript
         UnitData data = ScriptableObject.CreateInstance<UnitData>();
         data.unitName = "Dressed-up Dog";
         data.unitDesc = "";
-        data.baseHealthPoints = 2;
+        data.baseHealthPoints = 4;
         data.baseAttackDamage = 1;
         data.healthGrowth = 2;
         data.attackGrowth = 0;

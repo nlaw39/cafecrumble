@@ -7,32 +7,29 @@ public class EnemyUnitController : BaseUnitController
 
     public override void PlaceUnitsStart()
     {
-        foreach (GameObject unit in unitList)
+        foreach (Transform child in transform)
         {
             // flipping the sprite horizontally
-            SpriteRenderer sr = unit.GetComponent<SpriteRenderer>();
+            SpriteRenderer sr = child.GetComponent<SpriteRenderer>();
             if (sr != null)
             {
                 sr.flipX = true;
             }
 
-
-            //UnityEngine.Debug.Log("Placing " + unit.name);
-            unit.transform.position = new Vector3(enemyUnitXOffsetStart, transform.position.y, -1);
+            child.transform.position = new Vector3(enemyUnitXOffsetStart, transform.position.y, -1);
             enemyUnitXOffsetStart += 2;
         }
-        //UnityEngine.Debug.Log("Finished placing enemy units");
+        enemyUnitXOffsetStart = 2;
     }
 
     public override void PlaceUnitsCombat()
     {
-        foreach (GameObject unit in unitList)
+        foreach (Transform child in transform)
         {
-            //UnityEngine.Debug.Log("Moving " + unit.name + " in combat.");
-            unit.transform.position = new Vector3(enemyUnitXOffsetCombat, transform.position.y, -1);
-            enemyUnitXOffsetCombat += 2;
+            int currentLinePos = child.GetComponent<BaseUnitScript>().linePosition;
+            child.transform.position = new Vector3(enemyUnitXOffsetCombat * currentLinePos, transform.position.y, -1);
+            
         }
         enemyUnitXOffsetCombat = 2;
-        //UnityEngine.Debug.Log("Moved enemy units during combat");
     }
 }

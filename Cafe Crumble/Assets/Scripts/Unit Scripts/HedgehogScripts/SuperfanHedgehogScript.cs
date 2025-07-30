@@ -9,7 +9,7 @@ public class SuperfanHedgehogScript : BaseUnitScript
         UnitData data = ScriptableObject.CreateInstance<UnitData>();
         data.unitName = "Superfan Hedgehog";
         data.unitDesc = "";
-        data.baseHealthPoints = 3;
+        data.baseHealthPoints = 4;
         data.baseAttackDamage = 2;
         data.healthGrowth = 0;
         data.attackGrowth = 1;
@@ -35,7 +35,7 @@ public class SuperfanHedgehogScript : BaseUnitScript
         unitCost = data.unitCost;
 
 
-        PassiveAbility passive = Resources.Load<PassiveAbility>("UnitAbilities/PassiveAssets/LazyCapybaraPassive");
+        PassiveAbility passive = Resources.Load<PassiveAbility>("UnitAbilities/PassiveAssets/SuperfanHedgehogPassive");
         AddPassive(Instantiate(passive));
 
         Transform child = transform.Find("Canvas/HealthText");

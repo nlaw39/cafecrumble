@@ -14,6 +14,12 @@ public class UnitSelection : MonoBehaviour
 
     private void OnMouseDown()
     {
+        GameObject enemyParent = GameObject.FindGameObjectWithTag("EnemyUnits");
+        if (enemyParent != null && transform.IsChildOf(enemyParent.transform))
+        {
+            return;
+        }
+
         UnitSelectionManager.Instance.ToggleUnit(this);
     }
 

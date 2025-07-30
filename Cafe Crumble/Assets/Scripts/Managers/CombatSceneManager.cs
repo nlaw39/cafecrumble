@@ -83,7 +83,6 @@ public class CombatSceneManager : MonoBehaviour
 
     public void SetTieText()
     {
-        UnityEngine.Debug.Log("trying to set tie text");
         tieText.gameObject.SetActive(true);
     }
 }

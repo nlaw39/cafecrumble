@@ -7,7 +7,7 @@ public class IdolCapybaraScript : BaseUnitScript
     public override UnitData GetUnitData()
     {
         UnitData data = ScriptableObject.CreateInstance<UnitData>();
-        data.unitName = "Capybard-a";
+        data.unitName = "Capy-bard-a";
         data.unitDesc = "";
         data.baseHealthPoints = 5;
         data.baseAttackDamage = 0;
@@ -35,7 +35,7 @@ public class IdolCapybaraScript : BaseUnitScript
         unitCost = data.unitCost;
 
 
-        PassiveAbility passive = Resources.Load<PassiveAbility>("UnitAbilities/PassiveAssets/SacrificialCapybaraPassive");
+        PassiveAbility passive = Resources.Load<PassiveAbility>("UnitAbilities/PassiveAssets/IdolCatAura");
         AddPassive(Instantiate(passive));
 
         Transform child = transform.Find("Canvas/HealthText");

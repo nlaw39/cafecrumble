@@ -21,6 +21,8 @@ public class GameManager : MonoBehaviour
 
     private GameState gameState;
 
+    public Stage currentStage;
+
     [SerializeField]
     private int currentMoney;
 
@@ -45,6 +47,8 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        currentStage = Stage.Stage1;
+
         Faction playerFaction = FactionManager.Instance.SelectedFaction;
 
         switch (playerFaction)
@@ -74,7 +78,10 @@ public class GameManager : MonoBehaviour
     public void StartCombatPhase()
     {
         EnemyUnitsManager = GameObject.FindGameObjectWithTag("EnemyUnits");
-        EnemyUnits = EnemyUnitsManager.GetComponent<BaseUnitController>().unitList;
+        foreach (Transform child in EnemyUnitsManager.transform)
+        {
+            EnemyUnits.Add(child.gameObject);
+        }
         foreach (var unit in AllyUnits)
         {
             foreach (Transform child in unit.transform)
@@ -107,6 +114,7 @@ public class GameManager : MonoBehaviour
 
         GameObject combatManager = GameObject.FindGameObjectWithTag("CombatManager");
         CombatUIController combatUI = combatManager.GetComponent<CombatUIController>();
+
 
         ActivateImmediatePassives();
 
@@ -217,6 +225,9 @@ public class GameManager : MonoBehaviour
             EnemyUnitsManager.GetComponent<EnemyUnitController>().PlaceUnitsCombat();
 
             ActivateOnLeadEnemy();
+        } else 
+        { 
+            UnityEngine.Debug.Log("Enemy units list has no more enemies!");
         }
 
         
@@ -401,7 +412,6 @@ public class GameManager : MonoBehaviour
 
     public void BattleResults(GameState gameState)
     {
-        UnityEngine.Debug.Log("Getting battle results");
         GameObject CombatManager = GameObject.FindGameObjectWithTag("CombatManager");
 
         switch (gameState)
@@ -409,14 +419,35 @@ public class GameManager : MonoBehaviour
             case GameState.AllyWin:
                 ChangeMoney(4);
                 CombatManager.GetComponent<CombatSceneManager>().SetVictoryText();
+                IncreaseStage();
                 break;
             case GameState.EnemyWin:
                 ChangeMoney(0);
+                EnemyUnits = new List<GameObject>();
                 CombatManager.GetComponent<CombatSceneManager>().SetDefeatText();
                 break;
             case GameState.Tie:
                 ChangeMoney(0);
                 CombatManager.GetComponent<CombatSceneManager>().SetTieText();
+                break;
+        }
+    }
+
+    private void IncreaseStage()
+    {
+        switch (currentStage)
+        {
+            case Stage.Stage1:
+                UnityEngine.Debug.Log("Increased stage from 1 -> 2");
+                currentStage = Stage.Stage2;
+                break;
+            case Stage.Stage2:
+                UnityEngine.Debug.Log("Increased stage from 2 -> 3");
+                currentStage = Stage.Stage3;
+                break;
+            case Stage.Stage3:
+                UnityEngine.Debug.Log("Increased stage from 3 -> 3");
+                currentStage = Stage.Stage3;
                 break;
         }
     }
