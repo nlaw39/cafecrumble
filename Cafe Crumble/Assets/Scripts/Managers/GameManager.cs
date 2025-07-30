@@ -151,6 +151,7 @@ public class GameManager : MonoBehaviour
             combatUI.SetCafeButtonActive();
         }
 
+        BattleResults(gameState);
     }
 
     // Coroutine for each team's current lead to exchange blows
@@ -380,6 +381,9 @@ public class GameManager : MonoBehaviour
             var unitScript = unit.GetComponent<BaseUnitScript>();
             unitScript.ResetStats();
 
+            var unitSelectScript = unit.GetComponent<UnitSelection>();
+            unitSelectScript.ClearOrderNumber();
+
             // Move unit to random screen position so they aren't stacked on arrival
             float randomX = UnityEngine.Random.Range(0.3f, 0.7f);
             float randomY = UnityEngine.Random.Range(0.3f, 0.7f);
@@ -392,6 +396,28 @@ public class GameManager : MonoBehaviour
                 GameObject canvasObj = canvas.gameObject;
                 canvasObj.SetActive(false);
             }
+        }
+    }
+
+    public void BattleResults(GameState gameState)
+    {
+        UnityEngine.Debug.Log("Getting battle results");
+        GameObject CombatManager = GameObject.FindGameObjectWithTag("CombatManager");
+
+        switch (gameState)
+        {
+            case GameState.AllyWin:
+                ChangeMoney(4);
+                CombatManager.GetComponent<CombatSceneManager>().SetVictoryText();
+                break;
+            case GameState.EnemyWin:
+                ChangeMoney(0);
+                CombatManager.GetComponent<CombatSceneManager>().SetDefeatText();
+                break;
+            case GameState.Tie:
+                ChangeMoney(0);
+                CombatManager.GetComponent<CombatSceneManager>().SetTieText();
+                break;
         }
     }
 }

@@ -1,13 +1,18 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
+using TMPro;
 
 public class CombatSceneManager : MonoBehaviour
 {
     // assign in Inspector to an empty GameObject positioned near screen bottom
     public Transform allyFormationTransform;
     // The GameObject holding units carried over from shop
-    public GameObject allyUnitsHolder; 
+    public GameObject allyUnitsHolder;
+
+    [SerializeField] private TMP_Text victoryText;
+    [SerializeField] private TMP_Text defeatText;
+    [SerializeField] private TMP_Text tieText;
 
     private void Start()
     {
@@ -64,5 +69,21 @@ public class CombatSceneManager : MonoBehaviour
             // position in a line
             unit.localPosition = new Vector3(startX + i * spacing, -3.0f, 0f);
         }
+    }
+
+    public void SetVictoryText()
+    {
+        victoryText.gameObject.SetActive(true);
+    }
+
+    public void SetDefeatText()
+    {
+        defeatText.gameObject.SetActive(true);
+    }
+
+    public void SetTieText()
+    {
+        UnityEngine.Debug.Log("trying to set tie text");
+        tieText.gameObject.SetActive(true);
     }
 }

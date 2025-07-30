@@ -5,7 +5,7 @@ using TMPro;
 public class UnitSelection : MonoBehaviour
 {
     [SerializeField] private GameObject orderCanvas;
-    [SerializeField] private TMP_Text orderText; // or TMP_Text if using TextMeshPro
+    [SerializeField] private TMP_Text orderText;
 
     private void Start()
     {
@@ -37,6 +37,7 @@ public class UnitSelection : MonoBehaviour
 
     public void DeactivateOrderCanvas()
     {
+        ClearOrderNumber();
         orderCanvas.SetActive(false);
     }
 }
