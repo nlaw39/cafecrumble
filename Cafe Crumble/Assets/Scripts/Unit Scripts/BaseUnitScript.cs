@@ -76,11 +76,20 @@ public abstract class BaseUnitScript : MonoBehaviour
             {
                 UnityEngine.Debug.Log(target.name + " blocked the incoming attack!");
                 target.isShielded = false;
+
+                foreach (PassiveAbility passive in GetPassives())
+                {
+                    passive.OnTakeLead(this, target);
+                }
             }
             else
             {
                 target.UpdateHealthValue(-currentAttackDamage);
                 UnityEngine.Debug.Log(target.name + " took " + currentAttackDamage + " damage from " + this.name + "'s attack");
+                foreach (PassiveAbility passive in GetPassives())
+                {
+                    passive.OnAttack(this, target);
+                }
                 foreach (PassiveAbility passive in target.passives)
                 {
                     passive.OnTakeDamage(target, this);
